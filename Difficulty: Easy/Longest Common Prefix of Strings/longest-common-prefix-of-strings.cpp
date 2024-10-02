@@ -13,23 +13,32 @@ class Solution {
 
     string longestCommonPrefix(vector<string> arr) {
         // your code here
-        sort(arr.begin(), arr.end());
-        string ans="";
-        string first = arr[0], last =arr[arr.size()-1];
         
-        for(int i=0;i<min(first.length(), last.length());i++){
-            if(first[i] != last[i]){
-                if(ans == "")
-                return "-1";
-                return ans;
-            }
-            ans += first[i];
-            
-        }
-        if(ans ==" ")
-        return "-1";
-        return ans;
-        }
+        string ans="";
+             for(int i=0;i<arr[0].length();i++)
+             {
+                 char ch=arr[0][i];
+                 bool match=true;
+                 for(int j=1;j<arr.size();j++)
+                 {
+                     if(arr[j].length()<i||arr[j][i]!=ch)
+                     {
+                         match=false;
+                         break;
+                     }
+                 }
+                 if(match==false)
+                 break;
+                 else
+                 ans.push_back(ch);
+             }
+             if(ans.length()==0)
+             return "-1";
+             return ans;
+
+
+        
+    }
 };
 
 //{ Driver Code Starts.
