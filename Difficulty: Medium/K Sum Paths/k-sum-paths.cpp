@@ -80,11 +80,8 @@ Node *buildTree(string str) {
 
 
 // } Driver Code Ends
-// User function template for C++
-
 /*
-struct Node
-{
+struct Node {
     int data;
     Node *left;
     Node *right;
@@ -97,30 +94,30 @@ struct Node
 */
 class Solution {
   public:
-  void solve(Node *root , int k , int &count ,vector<int>path ){
-      if(root == NULL){
-          return ;
-      }
-      path.push_back(root->data);
-      solve(root->left,k , count , path);
-      solve(root->right, k , count , path);
-      int sum =0;
-      int n= path.size();
-      for(int i= n-1; i>=0;i--){
-          sum += path[i];
-          if(sum == k){
-              count++;
-          }
-      }
-      path.pop_back();
-  }
-  
+     void solve(Node* node,int currsum,int k,unordered_map<int,int> &mp,int &cnt){
+        if(!node)
+        return;
+        
+        currsum+=node->data;
+        
+        if(currsum==k)
+        cnt++;
+        
+        cnt+=mp[currsum-k];
+        
+        mp[currsum]++;
+        
+        solve(node->left,currsum,k,mp,cnt);
+        solve(node->right,currsum,k,mp,cnt);
+        
+        mp[currsum]--;
+        
+    }
     int sumK(Node *root, int k) {
-        // code here
-        vector<int>path;
-        int count =0;
-        solve(root , k , count , path);
-        return count;
+      int cnt=0;
+      unordered_map<int,int> mp;
+      solve(root,0,k,mp,cnt);
+      return cnt;
     }
 };
 
@@ -141,6 +138,7 @@ int main() {
         int k = stoi(key);
         Solution ob;
         cout << ob.sumK(root, k) << "\n";
+        cout << "~\n";
     }
     return 0;
 }
